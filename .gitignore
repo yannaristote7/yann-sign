@@ -25,3 +25,7 @@ Thumbs.db
 # Docker
 mysql_data/
 redis_data/
+
+# Django database
+*.sqlite3
+db.sqlite3
