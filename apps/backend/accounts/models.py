@@ -1,10 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from companies.models import Company
 
 
 class User(AbstractUser):
 
     class Role(models.TextChoices):
+
         SUPER_ADMIN = "SUPER_ADMIN", "Super Admin"
         COMPANY_ADMIN = "COMPANY_ADMIN", "Company Admin"
         EMPLOYEE = "EMPLOYEE", "Employee"
@@ -14,6 +16,15 @@ class User(AbstractUser):
         max_length=30,
         choices=Role.choices,
         default=Role.EMPLOYEE
+    )
+
+
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="users",
+        null=True,
+        blank=True
     )
 
 
