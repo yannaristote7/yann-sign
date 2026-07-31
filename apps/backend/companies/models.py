@@ -1,5 +1,16 @@
 from django.db import models
+from django.utils import timezone
 
+
+is_active = models.BooleanField(
+    default=True
+)
+
+
+deleted_at = models.DateTimeField(
+    null=True,
+    blank=True
+)
 
 class Company(models.Model):
 
@@ -19,6 +30,17 @@ class Company(models.Model):
     )
 
 
+    is_active = models.BooleanField(
+        default=True
+    )
+
+
+    deleted_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
@@ -27,8 +49,3 @@ class Company(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
-
-
-    def __str__(self):
-
-        return self.name

@@ -1,3 +1,60 @@
+from django.conf import settings
 from django.db import models
 
-# Create your models here.
+
+class AuditLog(models.Model):
+
+    class Action(models.TextChoices):
+
+        LOGIN = "LOGIN", "Connexion"
+        LOGOUT = "LOGOUT", "Déconnexion"
+
+        CREATE = "CREATE", "Création"
+        UPDATE = "UPDATE", "Modification"
+        DELETE = "DELETE", "Suppression"
+
+        DOCUMENT_VIEW = "DOCUMENT_VIEW", "Consultation document"
+        DOCUMENT_DOWNLOAD = "DOCUMENT_DOWNLOAD", "Téléchargement"
+
+        DOCUMENT_SIGN = "DOCUMENT_SIGN", "Signature"
+
+        SUPPORT_ACCESS = "SUPPORT_ACCESS", "Accès support"
+
+
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    action = models.CharField(
+        max_length=50,
+        choices=Action.choices
+    )
+
+    description = models.TextField()
+
+    ip_address = models.GenericIPAddressField(
+        null=True,
+        blank=True
+    )
+
+    user_agent = models.TextField(
+        blank=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+
+        ordering = ["-created_at"]
+
+    def __str__(self):
+
+        username = self.user.username if self.user else "Système"
+
+        return f"{username} - {self.action}"
