@@ -1,11 +1,11 @@
-from django.urls import path
+from django.urls import path, include
+
 from core.views import health_check
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-
 
 urlpatterns = [
 
@@ -24,6 +24,11 @@ urlpatterns = [
         "auth/token/refresh/",
         TokenRefreshView.as_view(),
         name="token_refresh"
+    ),
+
+    path(
+        "companies/",
+        include("companies.urls")
     ),
 
 ]
