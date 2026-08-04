@@ -1,3 +1,4 @@
+
 from rest_framework import generics
 
 from core.models import AuditLog
@@ -18,9 +19,12 @@ class CompanyListCreateView(generics.ListCreateAPIView):
     serializer_class = CompanySerializer
     permission_classes = [IsSuperAdmin]
 
+
     def perform_create(self, serializer):
 
-        company = serializer.save()
+        serializer.save()
+
+        company = serializer.instance
 
         create_audit_log(
             user=self.request.user,
@@ -33,7 +37,10 @@ class CompanyListCreateView(generics.ListCreateAPIView):
                 "company_email": company.email,
             },
             ip_address=self.request.META.get("REMOTE_ADDR"),
-            user_agent=self.request.META.get("HTTP_USER_AGENT", ""),
+            user_agent=self.request.META.get(
+                "HTTP_USER_AGENT",
+                ""
+            ),
         )
 
 
@@ -47,3 +54,4 @@ class CompanyDetailView(generics.RetrieveUpdateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     permission_classes = [IsSuperAdmin]
+
