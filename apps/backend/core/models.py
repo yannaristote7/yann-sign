@@ -8,7 +8,8 @@ class AuditLog(models.Model):
 
         LOGIN = "LOGIN", "Connexion"
         LOGOUT = "LOGOUT", "Déconnexion"
-
+        ACCOUNT_ACTIVATE = "ACCOUNT_ACTIVATE", "Activation compte"
+        
         CREATE = "CREATE", "Création"
         UPDATE = "UPDATE", "Modification"
         DELETE = "DELETE", "Suppression"
@@ -18,7 +19,7 @@ class AuditLog(models.Model):
         DOCUMENT_SIGN = "DOCUMENT_SIGN", "Signature"
 
         SUPPORT_ACCESS = "SUPPORT_ACCESS", "Accès support"
-
+        
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,

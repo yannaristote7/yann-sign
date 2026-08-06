@@ -31,4 +31,9 @@ urlpatterns = [
         include("companies.urls")
     ),
 
+    path(
+       "activations/",
+       include("activations.urls"),
+    ),
+
 ]

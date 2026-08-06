@@ -22,7 +22,9 @@ class ActivationToken(models.Model):
 
     token = models.UUIDField(
         default=uuid.uuid4,
-        unique=True
+        unique=True,
+        editable=False
+        
     )
 
     expires_at = models.DateTimeField()
@@ -45,3 +47,12 @@ class ActivationToken(models.Model):
     def __str__(self):
 
         return f"{self.user.email}"
+
+class Meta:
+
+    ordering = ["-created_at"]
+
+    indexes = [
+        models.Index(fields=["token"]),
+        models.Index(fields=["expires_at"]),
+    ]
